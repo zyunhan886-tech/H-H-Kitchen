@@ -4,18 +4,18 @@
   <block wx:elif="{{family}}">
     <view class="card center">
       <view class="big-emoji">🏠</view>
-      <view class="fname">{{family.name}}</view>
+      <view class="fname" bindtap="renameFamily">{{family.name}} <text class="pen">✏️</text></view>
       <view class="label" style="margin-top:28rpx">邀请码</view>
       <view class="code" bindtap="copyCode">{{family.code}}</view>
-      <view class="muted small">点邀请码复制，或者直接发给家人 👇</view>
-      <button class="btn primary" style="margin-top:28rpx" open-type="share">发给家人，一起用</button>
+      <view class="muted small">家人打开小程序 →「家庭」→ 输入这个邀请码就能加入</view>
+      <button class="btn primary" style="margin-top:28rpx" bindtap="copyInvite">复制邀请，发给家人</button>
     </view>
 
     <view class="card">
       <view class="label">家庭成员（{{family.members.length}}）</view>
       <view class="member" wx:for="{{family.members}}" wx:key="index">
         <text>👤 {{item.nickname}}</text>
-        <text wx:if="{{item.isMe}}" class="muted small">我</text>
+        <text wx:if="{{item.isMe}}" class="edit-nick" bindtap="editNickname">我 · 改昵称 ✏️</text>
       </view>
     </view>
 

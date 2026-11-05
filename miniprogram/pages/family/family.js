@@ -41,7 +41,44 @@ Page({
     this.setData({ busy: false })
   },
 
+  // 弹一个可编辑的框，确认后调用 action
+  editText(title, current, placeholder, action, field) {
+    wx.showModal({
+      title, editable: true, placeholderText: placeholder, content: current || '',
+      success: async r => {
+        if (!r.confirm) return
+        const value = (r.content || '').trim()
+        if (!value) { wx.showToast({ title: '不能为空', icon: 'none' }); return }
+        if (value.length > 20) { wx.showToast({ title: '最多 20 个字', icon: 'none' }); return }
+        try {
+          const me = await api.call(action, { [field]: value })
+          app.setMe(me)
+          this.setData({ family: me.family })
+          wx.showToast({ title: '改好了', icon: 'success' })
+        } catch (e) { api.toastError(e) }
+      }
+    })
+  },
+
+  renameFamily() {
+    this.editText('改家庭名字', this.data.family.name, '比如：H&H 的小家🏠', 'renameFamily', 'name')
+  },
+
+  editNickname() {
+    const me = this.data.family.members.find(m => m.isMe)
+    this.editText('改我的昵称', me && me.nickname, '比如：Chris', 'updateNickname', 'nickname')
+  },
+
   copyCode() { wx.setClipboardData({ data: this.data.family.code }) },
+
+  // 小程序未认证时不能用分享卡片，所以改成复制一段文字，粘贴到微信聊天里发给家人
+  copyInvite() {
+    const f = this.data.family
+    wx.setClipboardData({
+      data: `来加入「${f.name}」，一起记菜谱 🍳\n打开 H&H Kitchen 小程序 →「家庭」→ 输入邀请码：${f.code}`,
+      success: () => wx.showToast({ title: '已复制，去微信粘贴发给家人', icon: 'none', duration: 2500 })
+    })
+  },
 
   leave() {
     wx.showModal({

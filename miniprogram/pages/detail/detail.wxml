@@ -45,8 +45,41 @@
   </view>
 
   <view class="bottom-bar">
-    <button class="btn soft" open-type="share">分享</button>
-    <button class="btn primary" bindtap="edit">修改菜品</button>
+    <button class="btn soft" bindtap="copyRecipe">复制做法</button>
+    <button class="btn primary" bindtap="openCook">炒好啦 🍳</button>
+    <button class="btn ghost" bindtap="edit">修改</button>
+  </view>
+
+  <view class="mask" wx:if="{{cook.show}}" bindtap="closeCook">
+    <view class="sheet" catchtap="noop">
+      <view class="sheet-title">🍳 炒好啦！这次用了多少？</view>
+      <view class="muted small sheet-sub">确认后从冰箱里扣掉。用量不对可以加减，也可以直接输入小数（¼ 个就填 0.25）</view>
+      <scroll-view scroll-y class="sheet-body">
+        <view class="cook-row" wx:for="{{cook.rows}}" wx:key="fridgeId">
+          <view class="cook-emoji">{{item.emoji}}</view>
+          <view class="cook-info">
+            <view class="cook-name">{{item.name}}</view>
+            <view class="muted small">冰箱里：{{item.haveText}}</view>
+            <view wx:if="{{item.over}}" class="over small">≥ 库存，会记为用完</view>
+          </view>
+          <view wx:if="{{item.hasQty}}" class="stepper">
+            <view class="st-btn" data-index="{{index}}" data-delta="-1" bindtap="stepCook">−</view>
+            <input class="st-in" type="digit" value="{{item.qty}}" data-index="{{index}}" bindinput="onCookQty" />
+            <view class="st-btn" data-index="{{index}}" data-delta="1" bindtap="stepCook">＋</view>
+            <view class="st-unit">{{item.unit}}</view>
+          </view>
+          <label wx:else class="useup">
+            <text class="small muted">用完了</text>
+            <switch color="#D98A3D" checked="{{item.useUp}}" data-index="{{index}}" bindchange="toggleUseUp" />
+          </label>
+        </view>
+        <view wx:if="{{cook.missing}}" class="muted small missing">冰箱里没有：{{cook.missing}}（不扣）</view>
+      </scroll-view>
+      <view class="sheet-btns">
+        <button class="btn ghost" bindtap="closeCook">取消</button>
+        <button class="btn primary" bindtap="confirmCook" disabled="{{cook.saving}}">{{cook.saving ? '更新中…' : '确认扣除'}}</button>
+      </view>
+    </view>
   </view>
 </block>
 

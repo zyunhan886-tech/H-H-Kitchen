@@ -17,3 +17,23 @@
 .cook-num { background: var(--cook); }
 .step-text { flex: 1; font-size: 31rpx; line-height: 1.6; }
 .steps .muted { padding: 24rpx 0; }
+
+.bottom-bar .btn.ghost { flex: 0 0 150rpx; }
+.mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); z-index: 100; display: flex; align-items: flex-end; }
+.sheet { width: 100%; background: #fff; border-radius: 32rpx 32rpx 0 0; padding: 36rpx 32rpx calc(28rpx + env(safe-area-inset-bottom)); box-sizing: border-box; }
+.sheet-title { font-size: 36rpx; font-weight: 800; }
+.sheet-sub { margin: 8rpx 0 16rpx; }
+.sheet-body { max-height: 56vh; }
+.cook-row { display: flex; align-items: center; padding: 20rpx 0; border-bottom: 2rpx dashed var(--line); }
+.cook-emoji { font-size: 52rpx; width: 80rpx; height: 80rpx; line-height: 80rpx; text-align: center; background: var(--cell); border-radius: 16rpx; margin-right: 18rpx; flex-shrink: 0; }
+.cook-info { flex: 1; min-width: 0; }
+.cook-name { font-size: 30rpx; font-weight: 600; }
+.over { color: #C0504A; }
+.stepper { display: flex; align-items: center; flex-shrink: 0; }
+.st-btn { width: 60rpx; height: 60rpx; line-height: 56rpx; text-align: center; border-radius: 30rpx; background: var(--primary-soft); color: var(--primary); font-size: 36rpx; font-weight: 700; }
+.st-in { width: 110rpx; height: 60rpx; text-align: center; font-size: 30rpx; margin: 0 8rpx; background: #FBF7F0; border: 2rpx solid var(--line); border-radius: 12rpx; box-sizing: border-box; }
+.st-unit { width: 60rpx; margin-left: 8rpx; font-size: 26rpx; color: var(--muted); }
+.useup { display: flex; align-items: center; gap: 12rpx; flex-shrink: 0; }
+.missing { padding: 20rpx 0 4rpx; }
+.sheet-btns { display: flex; gap: 20rpx; margin-top: 24rpx; }
+.sheet-btns .btn { flex: 1; }

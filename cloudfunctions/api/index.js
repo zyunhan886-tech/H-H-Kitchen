@@ -42,6 +42,7 @@ const now = () => new Date().toISOString()
 const toDish = r => ({
   _id: r.id, name: r.name, category: r.category,
   ingredients: r.ingredients || [], prep: r.prep || [], cook: r.cook || [],
+  lastUsage: r.last_usage || {},
   updatedAt: r.updated_at
 })
 const toFridge = r => ({
@@ -142,6 +143,22 @@ const actions = {
     return actions.me({}, openid)
   },
 
+  async renameFamily(d, openid) {
+    const familyId = await requireFamily(openid)
+    const name = str(d.name, 20)
+    if (!name) fail('家庭名字不能为空')
+    await run(db().from('families').update({ name }).eq('id', familyId))
+    return actions.me({}, openid)
+  },
+
+  async updateNickname(d, openid) {
+    await requireFamily(openid)
+    const nickname = str(d.nickname, 20)
+    if (!nickname) fail('昵称不能为空')
+    await run(db().from('members').update({ nickname }).eq('openid', openid))
+    return actions.me({}, openid)
+  },
+
   async leaveFamily(_d, openid) {
     await run(db().from('members').delete().eq('openid', openid))
     return { member: null, family: null }
@@ -182,6 +199,42 @@ const actions = {
     const rows = await run(db().from('dishes').delete().eq('id', uuid(d.id)).eq('family_id', familyId).select('id'))
     if (!rows.length) fail('找不到这道菜，可能已被删除')
     return true
+  },
+
+  // 炒好啦：按用户确认过的用量扣冰箱；扣到 0（或勾了"用完了"）就移除；顺便记住这次用量
+  async cookDish(d, openid) {
+    const familyId = await requireFamily(openid)
+    const dish = await run(db().from('dishes').select('*').eq('id', uuid(d.id)).eq('family_id', familyId).maybeSingle())
+    if (!dish) fail('找不到这道菜，可能已被删除')
+    const uses = (Array.isArray(d.uses) ? d.uses : []).slice(0, 40)
+    const usage = {}
+    const usedUp = []
+    let updated = 0
+    for (const u of uses) {
+      const amount = cleanQty(u && u.qty)
+      const useUp = !!(u && u.useUp)
+      if (!useUp && !amount) continue
+      const item = await run(db().from('fridge_items').select('id,name,qty,unit')
+        .eq('id', uuid(u.fridgeId)).eq('family_id', familyId).maybeSingle())
+      if (!item) continue                                  // 家人刚好把它移除了
+      const have = item.qty == null ? null : Number(item.qty)
+      if (useUp || (have != null && amount >= have - 1e-9)) {
+        await run(db().from('fridge_items').delete().eq('id', item.id))
+        usedUp.push(item.name)
+      } else if (have != null) {
+        await run(db().from('fridge_items').update({ qty: Math.round((have - amount) * 100) / 100, updated_at: now() }).eq('id', item.id))
+      } else {
+        continue                                           // 没记数量又没勾"用完了"：不动
+      }
+      updated++
+      if (amount) usage[str(u.ingredient || item.name, 20)] = { qty: amount, unit: item.unit }
+    }
+    if (Object.keys(usage).length) {
+      try {
+        await run(db().from('dishes').update({ last_usage: Object.assign({}, dish.last_usage || {}, usage) }).eq('id', dish.id))
+      } catch (e) { console.error('[cookDish] 记录用量失败（是否执行了 002_cook_usage.sql？）', e.message) }
+    }
+    return { updated, usedUp }
   },
 
   // ---------- 冰箱 ----------

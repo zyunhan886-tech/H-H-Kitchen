@@ -50,6 +50,7 @@ PG 环境是在腾讯云侧创建的，官方说明腾讯云侧创建的环境�
 CloudBase 控制台（https://tcb.cloud.tencent.com）→ 选环境 `hhcook` → **PostgreSQL 数据库** →
 SQL 编辑器 → 粘贴 `db/migrations/001_init.sql` 的全部内容 → 执行。
 执行完应该能看到 4 张表，重复执行也没关系。
+之后再执行 `db/migrations/002_cook_usage.sql`（「炒好啦」记住每道菜上次的用量）。
 不需要开启 pgdoc / Document 插件。
 
 ### 3. 部署云函数 `api`
@@ -96,6 +97,7 @@ SQL 编辑器 → 粘贴 `db/migrations/001_init.sql` 的全部内容 → 执行
 ```
 cloudfunctions/api/index.js   唯一的云函数（PostgreSQL），所有读写都在这里，按家庭隔离、校验权限
 db/migrations/001_init.sql    建表 + 权限（RLS）
+db/migrations/002_cook_usage.sql  「炒好啦」记住上次用量
 cloudbaserc.json              tcb CLI 部署配置（不含密钥）
 miniprogram/
   pages/index    菜谱列表 + ＋ 按钮

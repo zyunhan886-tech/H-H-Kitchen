@@ -5,3 +5,5 @@
 .member { display: flex; justify-content: space-between; padding: 18rpx 0; border-bottom: 2rpx dashed var(--line); }
 .member:last-child { border-bottom: none; }
 .h { font-size: 32rpx; font-weight: 700; margin-bottom: 8rpx; }
+.pen { font-size: 28rpx; }
+.edit-nick { font-size: 24rpx; color: var(--primary); }

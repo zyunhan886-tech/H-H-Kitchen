@@ -1,0 +1,50 @@
+page {
+  --bg: #F7F1E8;
+  --card: #FFFFFF;
+  --ink: #2B2620;
+  --muted: #9A8F80;
+  --line: #EFE4D2;
+  --primary: #D98A3D;
+  --primary-soft: #FBEBD6;
+  --prep: #D9706B;
+  --prep-line: #F2CFCB;
+  --cook: #6F8499;
+  --cook-line: #D3DCE5;
+  --cell: #F5E8CF;
+  --ok: #5FA36A;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 30rpx;
+  line-height: 1.5;
+}
+.wrap { padding: 24rpx 32rpx 200rpx; }
+.card { background: var(--card); border-radius: 24rpx; border: 2rpx solid var(--line); padding: 24rpx; margin-bottom: 28rpx; }
+.muted { color: var(--muted); }
+.small { font-size: 24rpx; }
+.tag { display: inline-block; padding: 10rpx 32rpx; border-radius: 14rpx; color: #fff; font-size: 28rpx; font-weight: 600; margin-bottom: 16rpx; }
+.tag.food { background: var(--primary); }
+.tag.prep { background: var(--prep); }
+.tag.cook { background: var(--cook); }
+
+.btn { width: auto !important; box-sizing: border-box; display: flex; align-items: center; justify-content: center; height: 92rpx; border-radius: 46rpx; font-size: 32rpx; font-weight: 600; padding: 0 32rpx; margin: 0; line-height: 92rpx; }
+.btn::after { border: none; }
+.btn.primary { background: var(--primary); color: #fff; }
+.btn.soft { background: var(--primary-soft); color: var(--primary); }
+.btn.ghost { background: #fff; color: var(--primary); border: 3rpx solid var(--primary); }
+.btn.danger { background: #fff; color: #C0504A; border: 3rpx solid #EBC3C0; }
+.btn[disabled] { opacity: .5; }
+
+.input { box-sizing: border-box; background: #FBF7F0; border: 2rpx solid var(--line); border-radius: 16rpx; padding: 18rpx 22rpx; font-size: 30rpx; }
+input.input { height: 88rpx; padding: 0 22rpx; }
+textarea.input { width: 100%; }
+.label { font-size: 26rpx; color: var(--muted); margin: 8rpx 0 12rpx; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.chip { padding: 10rpx 24rpx; border-radius: 30rpx; background: #fff; border: 2rpx solid var(--line); font-size: 26rpx; color: #6B6255; }
+.chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+.bottom-bar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 20rpx; padding: 20rpx 32rpx calc(20rpx + env(safe-area-inset-bottom)); background: rgba(255,255,255,.96); border-top: 2rpx solid var(--line); z-index: 10; }
+.bottom-bar .btn { flex: 1; }
+
+.empty { text-align: center; padding: 120rpx 40rpx; color: var(--muted); }
+.empty .big { font-size: 96rpx; margin-bottom: 16rpx; }

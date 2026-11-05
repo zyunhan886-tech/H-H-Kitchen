@@ -1,0 +1,31 @@
+<view class="wrap">
+  <view wx:if="{{loading}}" class="empty">加载中…</view>
+
+  <view wx:elif="{{!hasFamily}}" class="empty">
+    <view class="big">🏠</view>
+    <view>先建一个家庭，或者用家人给的邀请码加入</view>
+    <view class="muted small" style="margin:12rpx 0 40rpx">同一个家庭里，菜谱和冰箱是共享的</view>
+    <button class="btn primary" bindtap="goFamily">去设置家庭</button>
+  </view>
+
+  <block wx:else>
+    <input class="input search" placeholder="🔍 搜菜名或食材" value="{{keyword}}" bindinput="onSearch" confirm-type="search" />
+    <scroll-view wx:if="{{cats.length > 1}}" scroll-x class="cat-scroll" enable-flex>
+      <view class="chip {{cat === item ? 'on' : ''}}" wx:for="{{cats}}" wx:key="*this" data-cat="{{item}}" bindtap="pickCat">{{item}}</view>
+    </scroll-view>
+
+    <view wx:if="{{!dishes.length}}" class="empty">
+      <view class="big">🍳</view>
+      <view>还没有菜，点右下角 ＋ 添加第一道</view>
+    </view>
+    <view wx:elif="{{!shown.length}}" class="empty">没有找到相关的菜</view>
+
+    <view class="dish card" wx:for="{{shown}}" wx:key="_id" data-id="{{item._id}}" bindtap="open">
+      <view class="dish-name">{{item.name}}</view>
+      <view class="dish-emojis" wx:if="{{item.emojis}}">{{item.emojis}}</view>
+      <view class="muted small">{{item.category || '未分类'}} · {{item.ingredients.length}} 样食材 · {{item.stepCount}} 步</view>
+    </view>
+  </block>
+</view>
+
+<view wx:if="{{hasFamily}}" class="fab" bindtap="add">＋</view>

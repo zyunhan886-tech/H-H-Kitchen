@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/fridge/fridge",
+    "pages/family/family",
+    "pages/detail/detail",
+    "pages/edit/edit",
+    "pages/join/join"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "我家菜谱",
+    "backgroundColor": "#F7F1E8",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#9A8F80",
+    "selectedColor": "#D98A3D",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "菜谱" },
+      { "pagePath": "pages/fridge/fridge", "text": "冰箱" },
+      { "pagePath": "pages/family/family", "text": "家庭" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

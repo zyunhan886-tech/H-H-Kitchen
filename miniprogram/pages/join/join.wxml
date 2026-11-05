@@ -1,0 +1,23 @@
+<view class="wrap">
+  <view wx:if="{{error}}" class="empty">
+    <view class="big">😶</view>
+    <view>{{error}}</view>
+    <button class="btn soft" style="margin-top:40rpx" bindtap="goHome">回首页</button>
+  </view>
+
+  <view wx:elif="{{name}}" class="card" style="text-align:center;padding:48rpx 32rpx">
+    <view style="font-size:96rpx">🏠</view>
+    <view class="muted">家人邀请你加入</view>
+    <view style="font-size:44rpx;font-weight:800;margin:8rpx 0 36rpx">{{name}}</view>
+    <block wx:if="{{already}}">
+      <view class="muted" style="margin-bottom:28rpx">你已经在这个家庭里了</view>
+      <button class="btn primary" bindtap="goHome">去看菜谱</button>
+    </block>
+    <block wx:else>
+      <input class="input" type="nickname" placeholder="你的称呼，比如：婷婷" value="{{nickname}}" bindinput="onNick" bindblur="onNick" style="text-align:left" />
+      <button class="btn primary" style="margin-top:24rpx" bindtap="join" disabled="{{busy}}">加入，一起记菜谱</button>
+    </block>
+  </view>
+
+  <view wx:else class="empty">加载中…</view>
+</view>

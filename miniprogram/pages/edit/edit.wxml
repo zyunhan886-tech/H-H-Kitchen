@@ -1,0 +1,57 @@
+<view class="wrap" wx:if="{{loaded}}">
+  <view class="card">
+    <view class="label">菜名</view>
+    <input class="input" placeholder="比如：重庆版鱼香肉丝" value="{{name}}" bindinput="onName" maxlength="40" />
+    <view class="label" style="margin-top:24rpx">分类</view>
+    <view class="chips">
+      <view class="chip {{category === item ? 'on' : ''}}" wx:for="{{cats}}" wx:key="*this" data-cat="{{item}}" bindtap="pickCat">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="tag food">食材</view>
+  <view class="card">
+    <view class="ing-list" wx:if="{{ingredients.length}}">
+      <view class="ing" wx:for="{{ingredients}}" wx:key="name">
+        <view class="ing-emoji" data-index="{{index}}" bindtap="openPicker">{{item.emoji}}</view>
+        <view class="ing-name">{{item.name}}</view>
+        <view class="ing-x" data-index="{{index}}" bindtap="removeIng">×</view>
+      </view>
+    </view>
+    <view class="muted small" wx:if="{{ingredients.length}}" style="margin-bottom:16rpx">点图标可以换 emoji</view>
+    <view class="row">
+      <input class="input flex" placeholder="瘦肉 大葱 泡椒（空格隔开）" value="{{ingInput}}" bindinput="onIngInput" bindconfirm="addIng" confirm-type="done" />
+      <button class="btn soft add-btn" bindtap="addIng">添加</button>
+    </view>
+  </view>
+
+  <block wx:for="{{sections}}" wx:for-item="sec" wx:key="key">
+    <view class="tag {{sec.key}}">{{sec.title}}</view>
+    <view class="card">
+      <view class="step-edit" wx:for="{{sec.key === 'prep' ? prep : cook}}" wx:key="index">
+        <view class="num {{sec.key}}-num">{{index + 1}}</view>
+        <textarea class="step-input" auto-height maxlength="300" value="{{item}}" placeholder="{{index === 0 ? sec.tip : '下一步…'}}"
+          data-key="{{sec.key}}" data-index="{{index}}" bindinput="onStep" disable-default-padding />
+        <view class="step-ops">
+          <view class="op" wx:if="{{index > 0}}" data-key="{{sec.key}}" data-index="{{index}}" bindtap="moveUp">↑</view>
+          <view class="op" data-key="{{sec.key}}" data-index="{{index}}" bindtap="removeStep">×</view>
+        </view>
+      </view>
+      <view class="add-step {{sec.key}}-color" data-key="{{sec.key}}" bindtap="addStep">＋ 添加一步</view>
+    </view>
+  </block>
+
+  <button wx:if="{{id}}" class="btn danger" bindtap="del" style="margin-top:20rpx">删除这道菜</button>
+</view>
+
+<view class="bottom-bar" wx:if="{{loaded}}">
+  <button class="btn primary" bindtap="save" disabled="{{saving}}">{{saving ? '保存中…' : '保存'}}</button>
+</view>
+
+<view class="mask" wx:if="{{pickerIndex >= 0}}" bindtap="closePicker">
+  <view class="picker" catchtap="noop">
+    <view class="picker-title">选一个图标</view>
+    <view class="emoji-grid">
+      <view class="emoji" wx:for="{{emojis}}" wx:key="*this" data-emoji="{{item}}" bindtap="chooseEmoji">{{item}}</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,53 @@
+<view wx:if="{{error}}" class="empty">
+  <view class="big">😶</view>
+  <view>{{error}}</view>
+</view>
+
+<block wx:elif="{{dish}}">
+  <view class="head">
+    <view class="title">{{dish.name}}</view>
+    <view class="muted">分类：{{dish.category || '未分类'}}</view>
+  </view>
+
+  <view class="wrap">
+    <view class="tag food">食材</view>
+    <view class="card">
+      <view wx:if="{{!dish.ingredients.length}}" class="muted small">没有填写食材</view>
+      <view class="grid">
+        <view class="cell {{item.have ? 'have' : ''}}" wx:for="{{dish.ingredients}}" wx:key="name">
+          <view class="cell-emoji">{{item.emoji}}</view>
+          <view class="cell-name">{{item.name}}</view>
+          <view wx:if="{{item.have}}" class="dot">✓</view>
+        </view>
+      </view>
+      <view wx:if="{{dish.ingredients.length}}" class="fridge-hint small">
+        🧊 冰箱里有 {{haveCount}} / {{dish.ingredients.length}} 样
+      </view>
+    </view>
+
+    <view class="tag prep">备菜</view>
+    <view class="card steps prep-card">
+      <view wx:if="{{!dish.prep.length}}" class="muted small">没有备菜步骤</view>
+      <view class="step" wx:for="{{dish.prep}}" wx:key="index">
+        <view class="num prep-num">{{index + 1}}</view>
+        <text class="step-text" user-select>{{item}}</text>
+      </view>
+    </view>
+
+    <view class="tag cook">炒菜</view>
+    <view class="card steps cook-card">
+      <view wx:if="{{!dish.cook.length}}" class="muted small">没有炒菜步骤</view>
+      <view class="step" wx:for="{{dish.cook}}" wx:key="index">
+        <view class="num cook-num">{{index + 1}}</view>
+        <text class="step-text" user-select>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <button class="btn soft" open-type="share">分享</button>
+    <button class="btn primary" bindtap="edit">修改菜品</button>
+  </view>
+</block>
+
+<view wx:else class="empty">加载中…</view>

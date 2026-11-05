@@ -1,0 +1,46 @@
+<view class="wrap">
+  <view wx:if="{{loading}}" class="empty">加载中…</view>
+
+  <view wx:elif="{{!hasFamily}}" class="empty">
+    <view class="big">🧊</view>
+    <view>加入家庭后，全家共用一个冰箱</view>
+    <button class="btn primary" style="margin-top:40rpx" bindtap="goFamily">去设置家庭</button>
+  </view>
+
+  <block wx:else>
+    <view class="card">
+      <view class="label">买了什么？直接写或粘贴</view>
+      <textarea class="input box" auto-height maxlength="2000" value="{{text}}" bindinput="onText"
+        placeholder="芹菜一斤，鸡蛋10个、酱油一瓶 半斤五花肉" />
+      <button class="btn soft" style="margin-top:20rpx" bindtap="parse">识别</button>
+
+      <view wx:if="{{preview.length}}" class="preview">
+        <view class="label">确认一下（可以直接改）</view>
+        <view class="p-row" wx:for="{{preview}}" wx:key="index">
+          <view class="p-emoji">{{item.emoji}}</view>
+          <input class="p-in p-name" value="{{item.name}}" data-index="{{index}}" data-field="name" bindinput="editPreview" />
+          <input class="p-in p-qty" type="digit" value="{{item.qty}}" placeholder="数量" data-index="{{index}}" data-field="qty" bindinput="editPreview" />
+          <input class="p-in p-unit" value="{{item.unit}}" placeholder="单位" data-index="{{index}}" data-field="unit" bindinput="editPreview" />
+          <view class="p-x" data-index="{{index}}" bindtap="removePreview">×</view>
+        </view>
+        <view class="row2">
+          <button class="btn ghost" bindtap="cancelPreview">取消</button>
+          <button class="btn primary" bindtap="confirmAdd" disabled="{{saving}}">放进冰箱</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="section-head">
+      <text class="h">冰箱里有</text>
+      <text class="muted small">{{items.length}} 样 · 点一下可修改</text>
+    </view>
+    <view wx:if="{{!items.length}}" class="empty" style="padding-top:40rpx">空空的，买菜回来记一下吧</view>
+    <view class="grid">
+      <view class="cell" wx:for="{{items}}" wx:key="_id" data-index="{{index}}" bindtap="tapItem">
+        <view class="cell-emoji">{{item.emoji}}</view>
+        <view class="cell-name">{{item.name}}</view>
+        <view class="cell-qty">{{item.qtyText}}</view>
+      </view>
+    </view>
+  </block>
+</view>

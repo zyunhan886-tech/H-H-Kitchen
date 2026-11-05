@@ -1,0 +1,18 @@
+.box { min-height: 160rpx; }
+.preview { margin-top: 28rpx; border-top: 2rpx dashed var(--line); padding-top: 16rpx; }
+.p-row { display: flex; align-items: center; gap: 10rpx; margin-bottom: 14rpx; }
+.p-emoji { font-size: 40rpx; width: 52rpx; text-align: center; }
+.p-in { background: #FBF7F0; border: 2rpx solid var(--line); border-radius: 12rpx; padding: 10rpx 14rpx; font-size: 28rpx; height: 64rpx; box-sizing: border-box; }
+.p-name { flex: 1; }
+.p-qty { width: 110rpx; }
+.p-unit { width: 90rpx; }
+.p-x { color: var(--muted); font-size: 36rpx; width: 44rpx; text-align: center; }
+.row2 { display: flex; gap: 20rpx; margin-top: 20rpx; }
+.row2 .btn { flex: 1; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; margin: 12rpx 4rpx 20rpx; }
+.h { font-size: 34rpx; font-weight: 700; }
+.grid { display: flex; flex-wrap: wrap; gap: 18rpx; }
+.cell { width: calc((100% - 54rpx) / 4); background: #fff; border: 2rpx solid var(--line); border-radius: 18rpx; overflow: hidden; text-align: center; }
+.cell-emoji { background: var(--cell); font-size: 60rpx; height: 110rpx; line-height: 110rpx; }
+.cell-name { font-size: 26rpx; padding: 8rpx 6rpx 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cell-qty { font-size: 22rpx; color: var(--muted); padding-bottom: 10rpx; }

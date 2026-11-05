@@ -1,0 +1,7 @@
+.center { text-align: center; padding: 40rpx 32rpx; }
+.big-emoji { font-size: 96rpx; }
+.fname { font-size: 40rpx; font-weight: 800; }
+.code { font-size: 64rpx; font-weight: 800; letter-spacing: 12rpx; color: var(--primary); margin: 4rpx 0 8rpx; }
+.member { display: flex; justify-content: space-between; padding: 18rpx 0; border-bottom: 2rpx dashed var(--line); }
+.member:last-child { border-bottom: none; }
+.h { font-size: 32rpx; font-weight: 700; margin-bottom: 8rpx; }

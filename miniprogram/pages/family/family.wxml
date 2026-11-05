@@ -1,0 +1,44 @@
+<view class="wrap">
+  <view wx:if="{{loading}}" class="empty">加载中…</view>
+
+  <block wx:elif="{{family}}">
+    <view class="card center">
+      <view class="big-emoji">🏠</view>
+      <view class="fname">{{family.name}}</view>
+      <view class="label" style="margin-top:28rpx">邀请码</view>
+      <view class="code" bindtap="copyCode">{{family.code}}</view>
+      <view class="muted small">点邀请码复制，或者直接发给家人 👇</view>
+      <button class="btn primary" style="margin-top:28rpx" open-type="share">发给家人，一起用</button>
+    </view>
+
+    <view class="card">
+      <view class="label">家庭成员（{{family.members.length}}）</view>
+      <view class="member" wx:for="{{family.members}}" wx:key="index">
+        <text>👤 {{item.nickname}}</text>
+        <text wx:if="{{item.isMe}}" class="muted small">我</text>
+      </view>
+    </view>
+
+    <button class="btn danger" bindtap="leave">退出家庭</button>
+  </block>
+
+  <block wx:else>
+    <view class="card">
+      <view class="label">你的称呼</view>
+      <input class="input" type="nickname" placeholder="比如：婷婷" value="{{nickname}}" data-field="nickname" bindinput="onInput" bindblur="onInput" />
+    </view>
+
+    <view class="card">
+      <view class="h">新建一个家庭</view>
+      <view class="muted small" style="margin-bottom:16rpx">建好后会有一个邀请码，发给家人就能一起用</view>
+      <input class="input" placeholder="家庭名字，比如：我们家" value="{{familyName}}" data-field="familyName" bindinput="onInput" />
+      <button class="btn primary" style="margin-top:20rpx" bindtap="create" disabled="{{busy}}">创建</button>
+    </view>
+
+    <view class="card">
+      <view class="h">已经有邀请码</view>
+      <input class="input" placeholder="6 位邀请码" value="{{code}}" data-field="code" bindinput="onInput" maxlength="6" />
+      <button class="btn ghost" style="margin-top:20rpx" bindtap="join" disabled="{{busy}}">加入</button>
+    </view>
+  </block>
+</view>

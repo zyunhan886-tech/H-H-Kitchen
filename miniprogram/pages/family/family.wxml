@@ -25,13 +25,13 @@
   <block wx:else>
     <view class="card">
       <view class="label">你的称呼</view>
-      <input class="input" type="nickname" placeholder="比如：婷婷" value="{{nickname}}" data-field="nickname" bindinput="onInput" bindblur="onInput" />
+      <input class="input" type="nickname" placeholder="比如: Chris" value="{{nickname}}" data-field="nickname" bindinput="onInput" bindblur="onInput" />
     </view>
 
     <view class="card">
       <view class="h">新建一个家庭</view>
       <view class="muted small" style="margin-bottom:16rpx">建好后会有一个邀请码，发给家人就能一起用</view>
-      <input class="input" placeholder="家庭名字，比如：我们家" value="{{familyName}}" data-field="familyName" bindinput="onInput" />
+      <input class="input" placeholder="家庭名字，比如: H&H 的小家🏠" value="{{familyName}}" data-field="familyName" bindinput="onInput" />
       <button class="btn primary" style="margin-top:20rpx" bindtap="create" disabled="{{busy}}">创建</button>
     </view>
 

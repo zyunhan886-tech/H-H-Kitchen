@@ -1,0 +1,14 @@
+{
+  "version": "2.0",
+  "envId": "hhcook-d9g309piedc5cc027",
+  "functionRoot": "./cloudfunctions",
+  "functions": [
+    {
+      "name": "api",
+      "runtime": "Nodejs18.15",
+      "handler": "index.main",
+      "timeout": 10,
+      "installDependency": true
+    }
+  ]
+}

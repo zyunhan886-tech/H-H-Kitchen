@@ -1,5 +1,5 @@
-// 如果你的云开发有多个环境，把 env 换成你的环境 ID（云开发控制台 → 设置 里能看到）
-const CLOUD_ENV = ''
+// CloudBase 环境 ID（PG 模式环境 hhcook）。小程序只通过云函数 api 访问数据，不直连数据库，前端不放任何密钥。
+const CLOUD_ENV = 'hhcook-d9g309piedc5cc027'
 
 App({
   globalData: { me: null },

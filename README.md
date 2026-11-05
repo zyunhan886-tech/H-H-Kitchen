@@ -3,7 +3,7 @@
 全家共享的菜谱 + 冰箱。一个人添加、修改，家里其他人那边会同步。
 
 - **菜谱**：首页列出全部菜，右下角 ＋ 添加。每道菜分三块：**食材**（emoji 图标）→ **备菜** → **炒菜**
-- **冰箱**：直接写"芹菜一斤，鸡蛋10个、酱油一瓶"，识别后确认放进冰箱；点一下能改数量或标记"用完了"
+- **冰箱**：「常买的菜」点 ＋ − 一次放进冰箱（单位可改、清单可编辑，全家共用）；也可以直接写"芹菜一斤，鸡蛋10个、酱油一瓶"，识别后确认放进冰箱；点一下能改数量或标记"用完了"
 - **详情页**会标出哪些食材冰箱里已经有（绿色 ✓）
 - **家庭**：创建后会生成 6 位邀请码，点"发给家人"，对方打开卡片就能加入
 
@@ -50,7 +50,7 @@ PG 环境是在腾讯云侧创建的，官方说明腾讯云侧创建的环境�
 CloudBase 控制台（https://tcb.cloud.tencent.com）→ 选环境 `hhcook` → **PostgreSQL 数据库** →
 SQL 编辑器 → 粘贴 `db/migrations/001_init.sql` 的全部内容 → 执行。
 执行完应该能看到 4 张表，重复执行也没关系。
-之后再执行 `db/migrations/002_cook_usage.sql`（「炒好啦」记住每道菜上次的用量）。
+之后再依次执行 `db/migrations/002_cook_usage.sql`（「炒好啦」记住上次用量）和 `003_staples.sql`（冰箱「常买的菜」全家共用）。
 不需要开启 pgdoc / Document 插件。
 
 ### 3. 部署云函数 `api`
@@ -98,6 +98,7 @@ SQL 编辑器 → 粘贴 `db/migrations/001_init.sql` 的全部内容 → 执行
 cloudfunctions/api/index.js   唯一的云函数（PostgreSQL），所有读写都在这里，按家庭隔离、校验权限
 db/migrations/001_init.sql    建表 + 权限（RLS）
 db/migrations/002_cook_usage.sql  「炒好啦」记住上次用量
+db/migrations/003_staples.sql     冰箱「常买的菜」清单
 cloudbaserc.json              tcb CLI 部署配置（不含密钥）
 miniprogram/
   pages/index    菜谱列表 + ＋ 按钮

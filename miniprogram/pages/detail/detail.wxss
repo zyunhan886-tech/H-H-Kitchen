@@ -1,8 +1,8 @@
 .head { background: #fff; padding: 24rpx 40rpx 36rpx; border-radius: 0 0 32rpx 32rpx; }
 .title { font-size: 48rpx; font-weight: 800; margin-bottom: 8rpx; }
 .wrap { padding-top: 32rpx; }
-.grid { display: flex; flex-wrap: wrap; gap: 16rpx; }
-.cell { position: relative; width: calc((100% - 64rpx) / 5); border-radius: 16rpx; background: #FBF7F0; overflow: hidden; text-align: center; }
+.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16rpx; }
+.cell { position: relative; box-sizing: border-box; min-width: 0; border-radius: 16rpx; background: #FBF7F0; overflow: hidden; text-align: center; }
 .cell-emoji { background: var(--cell); font-size: 64rpx; height: 116rpx; line-height: 116rpx; }
 .cell-name { font-size: 24rpx; color: #6B6255; padding: 10rpx 4rpx; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dot { position: absolute; top: 6rpx; right: 6rpx; width: 32rpx; height: 32rpx; border-radius: 16rpx; background: var(--ok); color: #fff; font-size: 20rpx; line-height: 32rpx; }

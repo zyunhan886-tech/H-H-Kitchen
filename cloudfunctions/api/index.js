@@ -159,6 +159,29 @@ const actions = {
     return actions.me({}, openid)
   },
 
+  // 常买清单：null 表示还没自定义过，前端用默认清单
+  async getStaples(_d, openid) {
+    const familyId = await requireFamily(openid)
+    const f = await run(db().from('families').select('*').eq('id', familyId).maybeSingle())
+    return { staples: f && Array.isArray(f.staples) ? f.staples : null, saved: !!f && 'staples' in f }
+  },
+
+  async saveStaples(d, openid) {
+    const familyId = await requireFamily(openid)
+    const seen = new Set()
+    const staples = (Array.isArray(d.staples) ? d.staples : [])
+      .map(i => ({ name: str(i && i.name, 20), unit: str(i && i.unit, 6), emoji: str(i && i.emoji, 8) || '🥣' }))
+      .filter(i => i.name && !seen.has(i.name) && seen.add(i.name))
+      .slice(0, 40)
+    try {
+      await run(db().from('families').update({ staples }).eq('id', familyId))
+    } catch (e) {
+      if (e.userFacing) throw e
+      fail('常买清单没保存到云端：请先在控制台执行 db/migrations/003_staples.sql')
+    }
+    return { staples }
+  },
+
   async leaveFamily(_d, openid) {
     await run(db().from('members').delete().eq('openid', openid))
     return { member: null, family: null }

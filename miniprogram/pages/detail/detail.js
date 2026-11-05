@@ -1,7 +1,6 @@
 const api = require('../../utils/api')
 
-const BULK_UNITS = ['克', '毫升', 'g', 'ml']
-const isBulk = unit => BULK_UNITS.includes(unit)              // 按克/毫升计的，步长 50；其他步长 0.25（1/4 个）
+const isBulk = unit => ['克', '毫升', 'g', 'ml'].includes(unit)   // 按克/毫升计的，步长 50；其他步长 0.25（1/4 个）
 const round2 = n => Math.round(n * 100) / 100
 
 // 食材名 → 冰箱里的那一样：先找同名，再找互相包含的（"猪瘦肉" ↔ "瘦肉"）

@@ -10,6 +10,8 @@ Page({
   async load(force) {
     try {
       const me = await app.getMe(force)
+      // 首页标题 = 家庭名 + 菜谱，比如「H&H 的小家菜谱」；还没加入家庭时用「我家菜谱」
+      wx.setNavigationBarTitle({ title: me.family ? `${me.family.name}菜谱` : '我家菜谱' })
       if (!me.family) { this.setData({ loading: false, hasFamily: false, dishes: [], shown: [] }); return }
       const dishes = await api.call('listDishes')
       dishes.forEach(d => {

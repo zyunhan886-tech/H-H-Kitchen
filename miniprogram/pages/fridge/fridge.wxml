@@ -8,6 +8,19 @@
   </view>
 
   <block wx:else>
+    <view class="section-head">
+      <text class="h">冰箱里有</text>
+      <text class="muted small">{{items.length}} 样 · 点一下可修改</text>
+    </view>
+    <view wx:if="{{!items.length}}" class="empty" style="padding-top:40rpx">空空的，买菜回来记一下吧</view>
+    <view class="grid fridge-grid">
+      <view class="cell" wx:for="{{items}}" wx:key="_id" data-index="{{index}}" bindtap="tapItem">
+        <view class="cell-emoji">{{item.emoji}}</view>
+        <view class="cell-name">{{item.name}}</view>
+        <view class="cell-qty">{{item.qtyText}}</view>
+      </view>
+    </view>
+
     <view class="card">
       <view class="label">买了什么？直接写或粘贴</view>
       <textarea class="input box" auto-height maxlength="2000" value="{{text}}" bindinput="onText"
@@ -30,17 +43,41 @@
       </view>
     </view>
 
-    <view class="section-head">
-      <text class="h">冰箱里有</text>
-      <text class="muted small">{{items.length}} 样 · 点一下可修改</text>
-    </view>
-    <view wx:if="{{!items.length}}" class="empty" style="padding-top:40rpx">空空的，买菜回来记一下吧</view>
-    <view class="grid">
-      <view class="cell" wx:for="{{items}}" wx:key="_id" data-index="{{index}}" bindtap="tapItem">
-        <view class="cell-emoji">{{item.emoji}}</view>
-        <view class="cell-name">{{item.name}}</view>
-        <view class="cell-qty">{{item.qtyText}}</view>
+    <view class="card">
+      <view class="staple-head">
+        <text class="h">常买的菜</text>
+        <view>
+          <text wx:if="{{editingStaples}}" class="link muted" bindtap="resetStaples">恢复默认</text>
+          <text class="link" bindtap="toggleEditStaples">{{editingStaples ? '完成' : '编辑'}}</text>
+        </view>
+      </view>
+      <view class="muted small" style="margin-bottom:16rpx">
+        {{editingStaples ? '点 ✕ 删掉，点最后一格添加；点单位可以改' : '点 ＋ − 选数量，点单位可以改（比如 条 → 克）'}}
+      </view>
+      <view class="staple-grid">
+        <view class="staple {{item.add > 0 ? 'picked' : ''}}" wx:for="{{staples}}" wx:key="name">
+          <view wx:if="{{editingStaples}}" class="staple-x" data-index="{{index}}" bindtap="removeStaple">✕</view>
+          <view class="staple-top">
+            <text class="staple-emoji">{{item.emoji}}</text>
+            <view class="staple-meta">
+              <view class="staple-name">{{item.name}}</view>
+              <view class="staple-unit" data-index="{{index}}" bindtap="editUnit">{{item.unit}} ✎</view>
+            </view>
+          </view>
+          <view class="staple-stock">{{item.stock || ' '}}</view>
+          <view class="staple-step" wx:if="{{!editingStaples}}">
+            <view class="st-btn" data-index="{{index}}" data-delta="-1" bindtap="stepStaple">−</view>
+            <input class="st-in" type="digit" value="{{item.add}}" placeholder="0" data-index="{{index}}" bindinput="onStapleInput" />
+            <view class="st-btn" data-index="{{index}}" data-delta="1" bindtap="stepStaple">＋</view>
+          </view>
+        </view>
+        <view wx:if="{{editingStaples}}" class="staple add-staple" bindtap="addStaple">＋<view class="small">添加</view></view>
       </view>
     </view>
   </block>
+</view>
+
+<view class="bottom-bar" wx:if="{{stapleCount > 0}}">
+  <button class="btn ghost" bindtap="clearStaples">清空</button>
+  <button class="btn primary" bindtap="confirmStaples" disabled="{{addingStaples}}">{{addingStaples ? '放进去中…' : '放进冰箱（' + stapleCount + ' 样）'}}</button>
 </view>
